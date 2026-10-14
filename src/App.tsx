@@ -4,6 +4,8 @@
 // measurements — Q&A, a cool-down simulator, priority zones, reports.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Globe, { type GlobeHandle } from './components/Globe';
+import Map2D from './components/Map2D';
+import { getDeviceProfile } from './lib/device';
 import Panel, { type Tab } from './components/Panel';
 import {
   loadHeatData, probe, circleStats,
@@ -30,6 +32,14 @@ export default function App() {
   const [simResult, setSimResult] = useState<SimResult | null>(null);
   const [simNarrative, setSimNarrative] = useState<string | null>(null);
   const [simLoading, setSimLoading] = useState(false);
+  const [mode, setMode] = useState<'2d' | '3d'>(() => {
+    try {
+      const saved = localStorage.getItem('heatscan_mode');
+      if (saved === '2d' || saved === '3d') return saved;
+      return getDeviceProfile().prefer2D ? '2d' : '3d';
+    } catch { return '3d'; }
+  });
+  const is3D = mode === '3d';
   const dataRef = useRef<HeatData | null>(null);
   const gridsRef = useRef<Grids | null>(null);
 
@@ -39,10 +49,12 @@ export default function App() {
 
   const heatReady = useCallback(async () => {
     try {
-      const { data: d, grids: g } = await loadHeatData();
-      dataRef.current = d; gridsRef.current = g;
-      setData(d);
-      await globeRef.current?.initHeat(d, g);
+      if (!dataRef.current || !gridsRef.current) {
+        const { data: d, grids: g } = await loadHeatData();
+        dataRef.current = d; gridsRef.current = g;
+        setData(d);
+      }
+      await globeRef.current?.initHeat(dataRef.current, gridsRef.current);
     } catch (e: any) {
       setLoadError(e?.message ?? 'failed to load heat data');
     }
@@ -103,9 +115,18 @@ export default function App() {
     globeRef.current?.applySim(null);
   }, []);
 
+  const switchMode = useCallback((m: '2d' | '3d') => {
+    try { localStorage.setItem('heatscan_mode', m); } catch { /* noop */ }
+    setMode(m);
+  }, []);
+
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-[#05080f]">
-      <Globe ref={globeRef} onProbe={handleProbe} onReady={heatReady} />
+      {is3D ? (
+        <Globe key="g3d" ref={globeRef} onProbe={handleProbe} onReady={heatReady} />
+      ) : (
+        <Map2D key="m2d" ref={globeRef} onProbe={handleProbe} onReady={heatReady} />
+      )}
       {loadError && (
         <div className="absolute top-3 right-3 bg-red-500/90 text-white text-[12px] rounded-xl px-4 py-2.5 max-w-[300px]">
           Data failed to load: {loadError}
@@ -134,13 +155,26 @@ export default function App() {
         setApiKey={setApiKey}
         surfaceOn={surfaceOn}
         activeLayer={activeLayer}
+        is3D={is3D}
       />
-      <button
-        onClick={() => globeRef.current?.flyHome()}
-        className="absolute bottom-4 right-4 bg-[#0a0f1c]/85 backdrop-blur border border-white/10 text-slate-200 text-[12px] font-semibold rounded-xl px-3.5 py-2 hover:bg-white/10"
-      >
-        ⌂ Nashik
-      </button>
+      <div className="absolute bottom-4 right-4 flex gap-2">
+        <div className="bg-[#0a0f1c]/85 backdrop-blur border border-white/10 rounded-xl p-0.5 flex text-[12px] font-semibold">
+          <button
+            onClick={() => switchMode('2d')}
+            className={`px-3 py-1.5 rounded-lg transition ${!is3D ? 'bg-orange-500/90 text-white' : 'text-slate-300 hover:bg-white/10'}`}
+          >2D</button>
+          <button
+            onClick={() => switchMode('3d')}
+            className={`px-3 py-1.5 rounded-lg transition ${is3D ? 'bg-orange-500/90 text-white' : 'text-slate-300 hover:bg-white/10'}`}
+          >3D</button>
+        </div>
+        <button
+          onClick={() => globeRef.current?.flyHome()}
+          className="bg-[#0a0f1c]/85 backdrop-blur border border-white/10 text-slate-200 text-[12px] font-semibold rounded-xl px-3.5 py-2 hover:bg-white/10"
+        >
+          ⌂ Nashik
+        </button>
+      </div>
     </div>
   );
 }

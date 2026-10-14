@@ -31,6 +31,7 @@ interface Props {
   setApiKey: (k: string) => void;
   surfaceOn: boolean;
   activeLayer: string;
+  is3D: boolean;
 }
 
 const TABS: { key: Tab; label: string }[] = [
@@ -65,7 +66,7 @@ export default function Panel(p: Props) {
           <span className="text-xl">🌡️</span>
           <div>
             <h1 className="text-white font-bold text-base leading-tight">HeatScan Nashik</h1>
-            <p className="text-[11px] text-slate-400">3D urban heat intelligence · Landsat 9</p>
+            <p className="text-[11px] text-slate-400">{p.is3D ? '3D' : '2D lite'} urban heat intelligence · Landsat 9</p>
           </div>
         </div>
         <div className="flex gap-1 mt-2">
@@ -108,10 +109,12 @@ export default function Panel(p: Props) {
                   </button>
                 ))}
               </div>
-              <label className="flex items-center gap-2 mt-2 text-[12px] text-slate-300 cursor-pointer">
-                <input type="checkbox" checked={p.surfaceOn} onChange={(e) => p.onToggleSurface(e.target.checked)} className="accent-orange-500" />
-                3D heat surface
-              </label>
+              {p.is3D && (
+                <label className="flex items-center gap-2 mt-2 text-[12px] text-slate-300 cursor-pointer">
+                  <input type="checkbox" checked={p.surfaceOn} onChange={(e) => p.onToggleSurface(e.target.checked)} className="accent-orange-500" />
+                  3D heat surface
+                </label>
+              )}
             </div>
             {p.probe && (
               <div className="bg-orange-500/10 border border-orange-500/30 rounded-xl p-3">

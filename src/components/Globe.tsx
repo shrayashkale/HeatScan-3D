@@ -271,8 +271,29 @@ const Globe = forwardRef<GlobeHandle, Props>(({ onProbe, onReady }, ref) => {
     },
   }));
 
+  const [cesiumLoading, setCesiumLoading] = useState(() => !window.Cesium);
+
   useEffect(() => {
-    if (!window.Cesium) { setFailed(true); return; }
+    let cancelled = false;
+    let cleanup: (() => void) | undefined;
+    const boot = () => {
+      if (cancelled) return;
+      if (!window.Cesium) { setFailed(true); return; }
+      setCesiumLoading(false);
+      const c = initViewer();
+      if (typeof c === 'function') cleanup = c;
+    };
+    if (window.Cesium) { boot(); return () => { cleanup?.(); }; }
+    // Lazy-load the 5MB Cesium runtime only when 3D is actually used.
+    const s = document.createElement('script');
+    s.src = `${ASSET_BASE}/vendor/Cesium.js`;
+    s.onload = boot;
+    s.onerror = () => { if (!cancelled) { setFailed(true); setCesiumLoading(false); } };
+    document.head.appendChild(s);
+    return () => { cancelled = true; cleanup?.(); };
+  }, []);
+
+  const initViewer = () => {
     const C = window.Cesium;
     const el = divRef.current;
     if (!el) return;
@@ -372,7 +393,7 @@ const Globe = forwardRef<GlobeHandle, Props>(({ onProbe, onReady }, ref) => {
       try { viewer.destroy(); } catch {}
       viewerRef.current = null;
     };
-  }, []);
+  };
 
   if (failed) {
     return (
@@ -387,7 +408,7 @@ const Globe = forwardRef<GlobeHandle, Props>(({ onProbe, onReady }, ref) => {
       <div ref={divRef} className="w-full h-full" />
       {!ready && (
         <div className="absolute inset-0 flex items-center justify-center bg-[#05080f]">
-          <p className="text-orange-400 text-sm animate-pulse">Heating up the planet…</p>
+          <p className="text-orange-400 text-sm animate-pulse">{cesiumLoading ? 'Loading 3D engine…' : 'Heating up the planet…'}</p>
         </div>
       )}
     </div>
