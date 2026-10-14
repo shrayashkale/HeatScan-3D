@@ -47,9 +47,9 @@ const Map2D = forwardRef<GlobeHandle, Props>(({ onProbe, onReady }, ref) => {
       worldCopyJump: true,
     }).setView(NASHIK, 11);
     mapRef.current = map;
-    L.tileLayer('https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
-      attribution: '© OpenStreetMap contributors © CARTO',
+      attribution: '© OpenStreetMap contributors',
     }).addTo(map);
     map.on('click', (e: L.LeafletMouseEvent) => probeCb.current(e.latlng.lat, e.latlng.lng));
     // signal ready on next tick so App can load heat data

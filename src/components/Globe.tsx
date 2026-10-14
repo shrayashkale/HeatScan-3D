@@ -28,7 +28,6 @@ interface Props {
 const ESRI = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 // Fallback base maps if the primary tile host is unreachable for the viewer.
 const FALLBACKS = [
-  { url: 'https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', credit: '© OpenStreetMap contributors © CARTO' },
   { url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', credit: '© OpenStreetMap contributors' },
 ];
 const NASHIK = { lat: 20.0, lon: 73.8 };
