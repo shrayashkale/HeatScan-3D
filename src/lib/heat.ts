@@ -2,6 +2,8 @@
 // Loads the HD-baked Landsat products (data.json + .npy grids),
 // bilinear sampling, inferno colormap. Everything the AI features
 // reason about comes from these real measurements.
+import { ASSET_BASE } from './cdn';
+
 export interface Cluster {
   lat: number; lon: number; tmax?: number; tmin?: number;
   tmean: number; area_ha: number;
@@ -41,7 +43,7 @@ export interface Grids {
 
 export const NODATA = -9999;
 
-export async function loadHeatData(base = 'data'): Promise<{ data: HeatData; grids: Grids }> {
+export async function loadHeatData(base = ASSET_BASE ? `${ASSET_BASE}/data` : 'data'): Promise<{ data: HeatData; grids: Grids }> {
   const data: HeatData = await (await fetch(`${base}/data.json`)).json();
   const [H, W] = data.grid_shape;
   const lst = parseNpy(await (await fetch(`${base}/lst_hd.npy`)).arrayBuffer());

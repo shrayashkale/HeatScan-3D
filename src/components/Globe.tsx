@@ -4,6 +4,7 @@
 // over hotspots — temperature you can see as landscape.
 import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
 import { LABELS, labelAlpha } from '../lib/labels';
+import { ASSET_BASE } from '../lib/cdn';
 import { inferno, type HeatData, type Grids, type ZoneStat, probe } from '../lib/heat';
 
 declare global { interface Window { Cesium?: any } }
@@ -173,9 +174,10 @@ const Globe = forwardRef<GlobeHandle, Props>(({ onProbe, onReady }, ref) => {
       const mk = (url: string) => v.imageryLayers.addImageryProvider(
         new C.SingleTileImageryProvider({ url, rectangle: rect }),
       );
-      layersRef.current.thermal = mk('data/thermal_hd.png');
-      layersRef.current.ndvi = mk('data/ndvi_hd.png');
-      layersRef.current.truecolor = mk('data/truecolor_hd.png');
+      const A = (p: string) => (ASSET_BASE ? `${ASSET_BASE}/${p}` : p);
+      layersRef.current.thermal = mk(A('data/thermal_hd.png'));
+      layersRef.current.ndvi = mk(A('data/ndvi_hd.png'));
+      layersRef.current.truecolor = mk(A('data/truecolor_hd.png'));
       layersRef.current.ndvi.show = false;
       layersRef.current.truecolor.show = false;
       // hotspot pins
