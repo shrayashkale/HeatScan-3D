@@ -26,7 +26,11 @@ interface Props {
 }
 
 const ESRI = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
-const ESRI_TERRAIN = 'https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer';
+// Fallback base maps if the primary tile host is unreachable for the viewer.
+const FALLBACKS = [
+  { url: 'https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', credit: '© OpenStreetMap contributors © CARTO' },
+  { url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', credit: '© OpenStreetMap contributors' },
+];
 const NASHIK = { lat: 20.0, lon: 73.8 };
 
 function makePin(color: string): string {
@@ -279,7 +283,10 @@ const Globe = forwardRef<GlobeHandle, Props>(({ onProbe, onReady }, ref) => {
       sceneModePicker: false, selectionIndicator: false,
       timeline: false, navigationHelpButton: false,
       imageryProvider: false,
-      terrainProvider: new C.ArcGISTiledElevationTerrainProvider({ url: ESRI_TERRAIN }),
+      // Ellipsoid terrain: zero network dependency, the globe always renders.
+      // (ArcGIS 3D terrain was dropped — when its tiles are unreachable the
+      // whole globe fails to draw. The heat surface mesh provides the relief.)
+      terrainProvider: new C.EllipsoidTerrainProvider(),
       creditContainer: document.createElement('div'),
     });
     viewerRef.current = viewer;
@@ -291,9 +298,24 @@ const Globe = forwardRef<GlobeHandle, Props>(({ onProbe, onReady }, ref) => {
     viewer.scene.fog.enabled = true;
     viewer.scene.fog.density = 0.00008;
 
-    viewer.imageryLayers.addImageryProvider(
-      new C.UrlTemplateImageryProvider({ url: ESRI, maximumLevel: 19, credit: new C.Credit('Esri, Maxar, Earthstar Geographics') }),
-    );
+    const addBaseWithFallback = (idx: number) => {
+      const src = idx === 0
+        ? { url: ESRI, credit: 'Esri, Maxar, Earthstar Geographics', max: 19 }
+        : { url: FALLBACKS[idx - 1].url, credit: FALLBACKS[idx - 1].credit, max: 20 };
+      const provider = new C.UrlTemplateImageryProvider({
+        url: src.url, maximumLevel: src.max, credit: new C.Credit(src.credit),
+      });
+      const layer = viewer.imageryLayers.addImageryProvider(provider, 0);
+      if (idx <= FALLBACKS.length) {
+        let errs = 0;
+        provider.errorEvent.addEventListener(() => {
+          if (++errs < 8) return; // tolerate a few flaky tiles
+          try { viewer.imageryLayers.remove(layer, false); } catch { /* noop */ }
+          addBaseWithFallback(idx + 1);
+        });
+      }
+    };
+    addBaseWithFallback(0);
 
     const labelEnts: { ent: any; def: (typeof LABELS)[number] }[] = [];
     for (const def of LABELS) {
