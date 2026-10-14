@@ -34,6 +34,8 @@ export default function App() {
   const [simLoading, setSimLoading] = useState(false);
   const [mode, setMode] = useState<'2d' | '3d'>(() => {
     try {
+      const qp = new URLSearchParams(window.location.search).get('mode');
+      if (qp === '2d' || qp === '3d') return qp;
       const saved = localStorage.getItem('heatscan_mode');
       if (saved === '2d' || saved === '3d') return saved;
       return getDeviceProfile().prefer2D ? '2d' : '3d';
