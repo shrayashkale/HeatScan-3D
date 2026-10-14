@@ -105,7 +105,7 @@ export default function Panel(p: Props) {
                       p.activeLayer === l ? 'bg-orange-500/90 text-white' : 'bg-white/5 text-slate-300 hover:bg-white/10'
                     }`}
                   >
-                    {l === 'ndvi' ? 'NDVI' : l}
+                    {l === 'ndvi' ? 'NDVI' : l === 'satellite' ? 'Globe' : l}
                   </button>
                 ))}
               </div>

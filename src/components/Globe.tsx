@@ -25,11 +25,6 @@ interface Props {
   onReady: () => void;
 }
 
-const ESRI = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
-// Fallback base maps if the primary tile host is unreachable for the viewer.
-const FALLBACKS = [
-  { url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', credit: '© OpenStreetMap contributors' },
-];
 const NASHIK = { lat: 20.0, lon: 73.8 };
 
 function makePin(color: string): string {
@@ -311,31 +306,15 @@ const Globe = forwardRef<GlobeHandle, Props>(({ onProbe, onReady }, ref) => {
     });
     viewerRef.current = viewer;
 
-    viewer.scene.globe.enableLighting = true;
-    viewer.scene.globe.dynamicAtmosphereLighting = true;
+    // Dark-globe aesthetic: no external tile servers (they're flaky and
+    // often blocked). The ellipsoid always renders; the Landsat heat data
+    // is the visual hero. Consistent lighting, no night-side blackout.
+    viewer.scene.globe.enableLighting = false;
+    viewer.scene.globe.dynamicAtmosphereLighting = false;
     viewer.scene.globe.atmosphereLightIntensity = 8.0;
     viewer.scene.skyAtmosphere.show = true;
     viewer.scene.fog.enabled = true;
     viewer.scene.fog.density = 0.00008;
-
-    const addBaseWithFallback = (idx: number) => {
-      const src = idx === 0
-        ? { url: ESRI, credit: 'Esri, Maxar, Earthstar Geographics', max: 19 }
-        : { url: FALLBACKS[idx - 1].url, credit: FALLBACKS[idx - 1].credit, max: 20 };
-      const provider = new C.UrlTemplateImageryProvider({
-        url: src.url, maximumLevel: src.max, credit: new C.Credit(src.credit),
-      });
-      const layer = viewer.imageryLayers.addImageryProvider(provider, 0);
-      if (idx <= FALLBACKS.length) {
-        let errs = 0;
-        provider.errorEvent.addEventListener(() => {
-          if (++errs < 8) return; // tolerate a few flaky tiles
-          try { viewer.imageryLayers.remove(layer, false); } catch { /* noop */ }
-          addBaseWithFallback(idx + 1);
-        });
-      }
-    };
-    addBaseWithFallback(0);
 
     const labelEnts: { ent: any; def: (typeof LABELS)[number] }[] = [];
     for (const def of LABELS) {
