@@ -1,0 +1,426 @@
+{
+ "scene": "LC09_L2SP_147046_20260516_20260517_02_T1",
+ "date": "2026-05-16",
+ "satellite": "Landsat 9",
+ "product": "Collection 2 Level-2 Surface Temperature",
+ "resolution_m": 30,
+ "bounds": [
+  [
+   19.9004,
+   73.6399
+  ],
+  [
+   20.1002,
+   73.9596
+  ]
+ ],
+ "grid_shape": [
+  730,
+  1121
+ ],
+ "stats": {
+  "min": 28.1,
+  "max": 59.2,
+  "mean": 47.4,
+  "median": 47.7,
+  "std": 4.0,
+  "p5": 41.5,
+  "p95": 52.7,
+  "n_valid": 818310
+ },
+ "uhi_intensity": 17.8,
+ "hotspots": [
+  {
+   "lat": 20.0617,
+   "lon": 73.8449,
+   "tmax": 55.4,
+   "tmean": 53.6,
+   "px": 4247,
+   "area_ha": 382.2
+  },
+  {
+   "lat": 20.0533,
+   "lon": 73.9077,
+   "tmax": 56.0,
+   "tmean": 53.6,
+   "px": 2602,
+   "area_ha": 234.2
+  },
+  {
+   "lat": 19.9131,
+   "lon": 73.7123,
+   "tmax": 59.2,
+   "tmean": 54.2,
+   "px": 1682,
+   "area_ha": 151.4
+  },
+  {
+   "lat": 20.0848,
+   "lon": 73.8712,
+   "tmax": 59.2,
+   "tmean": 55.1,
+   "px": 1567,
+   "area_ha": 141.0
+  },
+  {
+   "lat": 20.085,
+   "lon": 73.9012,
+   "tmax": 56.0,
+   "tmean": 53.9,
+   "px": 1317,
+   "area_ha": 118.5
+  },
+  {
+   "lat": 20.0815,
+   "lon": 73.7849,
+   "tmax": 57.0,
+   "tmean": 54.1,
+   "px": 1311,
+   "area_ha": 118.0
+  },
+  {
+   "lat": 20.0403,
+   "lon": 73.8938,
+   "tmax": 55.3,
+   "tmean": 53.6,
+   "px": 1307,
+   "area_ha": 117.6
+  },
+  {
+   "lat": 20.064,
+   "lon": 73.8773,
+   "tmax": 56.0,
+   "tmean": 53.6,
+   "px": 1221,
+   "area_ha": 109.9
+  },
+  {
+   "lat": 20.0889,
+   "lon": 73.7431,
+   "tmax": 58.2,
+   "tmean": 54.5,
+   "px": 733,
+   "area_ha": 66.0
+  },
+  {
+   "lat": 20.0845,
+   "lon": 73.7614,
+   "tmax": 56.2,
+   "tmean": 53.8,
+   "px": 601,
+   "area_ha": 54.1
+  },
+  {
+   "lat": 19.9359,
+   "lon": 73.72,
+   "tmax": 56.2,
+   "tmean": 53.8,
+   "px": 565,
+   "area_ha": 50.9
+  },
+  {
+   "lat": 19.9565,
+   "lon": 73.7021,
+   "tmax": 55.7,
+   "tmean": 53.5,
+   "px": 564,
+   "area_ha": 50.8
+  }
+ ],
+ "coolspots": [
+  {
+   "lat": 20.0302,
+   "lon": 73.661,
+   "tmin": 28.1,
+   "tmean": 31.7,
+   "px": 16364,
+   "area_ha": 1472.8
+  },
+  {
+   "lat": 19.9866,
+   "lon": 73.8802,
+   "tmin": 34.1,
+   "tmean": 38.9,
+   "px": 1491,
+   "area_ha": 134.2
+  },
+  {
+   "lat": 19.9039,
+   "lon": 73.6749,
+   "tmin": 29.3,
+   "tmean": 32.3,
+   "px": 1198,
+   "area_ha": 107.8
+  },
+  {
+   "lat": 20.0152,
+   "lon": 73.7731,
+   "tmin": 34.9,
+   "tmean": 39.0,
+   "px": 1181,
+   "area_ha": 106.3
+  },
+  {
+   "lat": 19.9742,
+   "lon": 73.9452,
+   "tmin": 36.2,
+   "tmean": 39.5,
+   "px": 1012,
+   "area_ha": 91.1
+  },
+  {
+   "lat": 19.9207,
+   "lon": 73.8519,
+   "tmin": 33.9,
+   "tmean": 39.3,
+   "px": 969,
+   "area_ha": 87.2
+  },
+  {
+   "lat": 19.9393,
+   "lon": 73.878,
+   "tmin": 35.4,
+   "tmean": 39.9,
+   "px": 949,
+   "area_ha": 85.4
+  },
+  {
+   "lat": 19.9389,
+   "lon": 73.8164,
+   "tmin": 37.0,
+   "tmean": 39.6,
+   "px": 674,
+   "area_ha": 60.7
+  }
+ ],
+ "priority_zones": [
+  {
+   "id": 1,
+   "name": "Zone 1",
+   "lat": 19.9489,
+   "lon": 73.8122,
+   "mean_temp": 53.3,
+   "max_temp": 56.3,
+   "mean_ndvi": 0.215,
+   "score": 75,
+   "px": 145,
+   "area_ha": 13.1
+  },
+  {
+   "id": 2,
+   "name": "Zone 2",
+   "lat": 20.0198,
+   "lon": 73.6745,
+   "mean_temp": 51.8,
+   "max_temp": 53.8,
+   "mean_ndvi": 0.194,
+   "score": 73,
+   "px": 116,
+   "area_ha": 10.4
+  },
+  {
+   "id": 3,
+   "name": "Zone 3",
+   "lat": 20.0131,
+   "lon": 73.8339,
+   "mean_temp": 51.9,
+   "max_temp": 54.7,
+   "mean_ndvi": 0.198,
+   "score": 72,
+   "px": 140,
+   "area_ha": 12.6
+  },
+  {
+   "id": 4,
+   "name": "Zone 4",
+   "lat": 20.0036,
+   "lon": 73.8839,
+   "mean_temp": 52.8,
+   "max_temp": 56.6,
+   "mean_ndvi": 0.229,
+   "score": 72,
+   "px": 279,
+   "area_ha": 25.1
+  },
+  {
+   "id": 5,
+   "name": "Zone 5",
+   "lat": 19.9466,
+   "lon": 73.7971,
+   "mean_temp": 51.9,
+   "max_temp": 54.0,
+   "mean_ndvi": 0.216,
+   "score": 72,
+   "px": 511,
+   "area_ha": 46.0
+  },
+  {
+   "id": 6,
+   "name": "Zone 6",
+   "lat": 19.9555,
+   "lon": 73.8623,
+   "mean_temp": 52.4,
+   "max_temp": 54.5,
+   "mean_ndvi": 0.239,
+   "score": 71,
+   "px": 94,
+   "area_ha": 8.5
+  },
+  {
+   "id": 7,
+   "name": "Zone 7",
+   "lat": 20.0994,
+   "lon": 73.9477,
+   "mean_temp": 53.1,
+   "max_temp": 55.1,
+   "mean_ndvi": 0.264,
+   "score": 71,
+   "px": 99,
+   "area_ha": 8.9
+  },
+  {
+   "id": 8,
+   "name": "Zone 8",
+   "lat": 20.0392,
+   "lon": 73.6476,
+   "mean_temp": 52.2,
+   "max_temp": 54.4,
+   "mean_ndvi": 0.238,
+   "score": 71,
+   "px": 60,
+   "area_ha": 5.4
+  },
+  {
+   "id": 9,
+   "name": "Zone 9",
+   "lat": 19.9819,
+   "lon": 73.8884,
+   "mean_temp": 51.4,
+   "max_temp": 53.0,
+   "mean_ndvi": 0.201,
+   "score": 70,
+   "px": 39,
+   "area_ha": 3.5
+  },
+  {
+   "id": 10,
+   "name": "Zone 10",
+   "lat": 20.0683,
+   "lon": 73.8453,
+   "mean_temp": 52.1,
+   "max_temp": 59.2,
+   "mean_ndvi": 0.235,
+   "score": 70,
+   "px": 77649,
+   "area_ha": 6988.4
+  },
+  {
+   "id": 11,
+   "name": "Zone 11",
+   "lat": 20.0892,
+   "lon": 73.7316,
+   "mean_temp": 52.6,
+   "max_temp": 56.7,
+   "mean_ndvi": 0.241,
+   "score": 70,
+   "px": 153,
+   "area_ha": 13.8
+  },
+  {
+   "id": 12,
+   "name": "Zone 12",
+   "lat": 19.937,
+   "lon": 73.7104,
+   "mean_temp": 51.8,
+   "max_temp": 59.2,
+   "mean_ndvi": 0.219,
+   "score": 70,
+   "px": 34420,
+   "area_ha": 3097.8
+  },
+  {
+   "id": 13,
+   "name": "Zone 13",
+   "lat": 19.9644,
+   "lon": 73.8089,
+   "mean_temp": 51.7,
+   "max_temp": 54.5,
+   "mean_ndvi": 0.215,
+   "score": 70,
+   "px": 815,
+   "area_ha": 73.3
+  },
+  {
+   "id": 14,
+   "name": "Zone 14",
+   "lat": 19.9671,
+   "lon": 73.7861,
+   "mean_temp": 51.5,
+   "max_temp": 54.1,
+   "mean_ndvi": 0.211,
+   "score": 70,
+   "px": 95,
+   "area_ha": 8.6
+  },
+  {
+   "id": 15,
+   "name": "Zone 15",
+   "lat": 20.0149,
+   "lon": 73.6972,
+   "mean_temp": 51.8,
+   "max_temp": 54.7,
+   "mean_ndvi": 0.224,
+   "score": 70,
+   "px": 1667,
+   "area_ha": 150.0
+  }
+ ],
+ "cooling_coeffs": {
+  "urban_forest": {
+   "delta_t_per_ha": -0.08,
+   "max_delta": -6.0,
+   "cost_inr_per_ha": 2500000,
+   "note": "literature-based planning estimate, not measured"
+  },
+  "cool_roof": {
+   "delta_t_per_ha": -0.05,
+   "max_delta": -3.5,
+   "cost_inr_per_ha": 1200000,
+   "note": "literature-based planning estimate, not measured"
+  },
+  "water_body": {
+   "delta_t_per_ha": -0.12,
+   "max_delta": -7.0,
+   "cost_inr_per_ha": 8000000,
+   "note": "literature-based planning estimate, not measured"
+  },
+  "green_corridor": {
+   "delta_t_per_ha": -0.06,
+   "max_delta": -4.5,
+   "cost_inr_per_ha": 4000000,
+   "note": "literature-based planning estimate, not measured"
+  }
+ },
+ "interventions": [
+  {
+   "key": "urban_forest",
+   "label": "Urban forest",
+   "blurb": "Dense tree planting; strongest sustained cooling via shade + evapotranspiration."
+  },
+  {
+   "key": "cool_roof",
+   "label": "Cool roofs",
+   "blurb": "High-albedo roof coatings on buildings; fast to deploy, moderate cooling."
+  },
+  {
+   "key": "water_body",
+   "label": "Water body",
+   "blurb": "Ponds/lakes; strong local cooling but high cost and water demand."
+  },
+  {
+   "key": "green_corridor",
+   "label": "Green corridor",
+   "blurb": "Linear parks along roads/canals; connects cool zones, moderate cooling."
+  }
+ ]
+}
