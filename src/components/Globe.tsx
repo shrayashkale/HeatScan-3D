@@ -4,7 +4,7 @@
 // over hotspots — temperature you can see as landscape.
 import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
 import { LABELS, labelAlpha } from '../lib/labels';
-import { ASSET_BASE } from '../lib/cdn';
+import { ASSET_BASE, VENDOR_BASE } from '../lib/cdn';
 import { inferno, type HeatData, type Grids, type ZoneStat, probe } from '../lib/heat';
 
 declare global { interface Window { Cesium?: any } }
@@ -285,7 +285,7 @@ const Globe = forwardRef<GlobeHandle, Props>(({ onProbe, onReady }, ref) => {
     if (window.Cesium) { boot(); return () => { cleanup?.(); }; }
     // Lazy-load the 5MB Cesium runtime only when 3D is actually used.
     const s = document.createElement('script');
-    s.src = `${ASSET_BASE}/vendor/Cesium.js`;
+    s.src = `${VENDOR_BASE}/vendor/Cesium.js`;
     s.onload = boot;
     s.onerror = () => { if (!cancelled) { setFailed(true); setCesiumLoading(false); } };
     document.head.appendChild(s);
